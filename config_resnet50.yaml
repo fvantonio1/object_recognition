@@ -1,0 +1,47 @@
+MODEL:
+  NUM_CLASSES: 80
+
+  BACKBONE:
+    NAME: resnet50
+    PRETRAINED: true
+    TRAINABLE_LAYERS: 3
+
+  FPN:
+    IN_CHANNELS: [256, 512, 1024, 2048]
+    OUT_CHANNELS: 256
+
+  HEAD:
+    NUM_CONVS: 4
+    CHANNELS: 256
+
+  ANCHORS:
+    SIZES: [32, 64, 128, 256, 512]
+    RATIOS: [0.5, 1.0, 2.0]
+    STRIDES: [8, 16, 32, 64, 128]
+    SCALES: [1.0, 1.2599, 1.5874]
+
+TRAIN:
+  LR: 0.01
+  BATCH_SIZE: 1
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 0.0001
+  EPOCHS: 12
+  FREEZE_BACKBONE: true
+
+  LR_SCHEDULER:
+    STEPS: [8, 11]
+    GAMMA: 0.1
+
+DATASET:
+  TRAIN:
+    IMAGES: data/COCO/train2017
+    ANNOTATIONS: data/COCO/annotations/instances_train2017.json
+  VAL:
+    IMAGES: data/COCO/val2017
+    ANNOTATIONS: data/COCO/annotations/instances_val2017.json
+
+TRANSFORMS:
+  MIN_SIZES: [640, 672, 704, 736, 768, 800]
+  MAX_SIZE: 1333
+  HFLIP_PROB: 0.5
+
